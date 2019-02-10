@@ -39,7 +39,7 @@ class CNN(nn.Module):
             nn.ReLU()
         )
 
-        self.layer8 = nn.Sequential(
+        """self.layer8 = nn.Sequential(
             nn.Conv2d(in_channels=16384, out_channels=32768, kernel_size=(4, 4)),
             nn.ReLU()
         )
@@ -48,7 +48,7 @@ class CNN(nn.Module):
         self.layer9 = nn.Sequential(
             nn.Conv2d(in_channels=32768, out_channels=32768, kernel_size=(4, 4)),
             nn.ReLU()
-        )
+        )"""
 
         #720 384 params
         self.fullyConnected = nn.Linear(128, 10)
