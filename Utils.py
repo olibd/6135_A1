@@ -1,7 +1,7 @@
 import torch
 
 
-def save_model(path, model, epoch, trainingLosses, trainingAccuracies, validationLosses, validationAccuracies):
+def save_model(model, epoch, trainingLosses, trainingAccuracies, validationLosses, validationAccuracies):
     torch.save({
         'epoch': epoch,
         'model_state_dict': model.state_dict(),
@@ -9,7 +9,7 @@ def save_model(path, model, epoch, trainingLosses, trainingAccuracies, validatio
         'trainingAccuracies': trainingAccuracies,
         'validationLosses': validationLosses,
         'validationAccuracies': validationAccuracies
-    }, path + "/checkpoint.pth")
+    }, "checkpoint.pth")
 
-def load_model(path):
-    return torch.load(path + "/checkpoint.pth")
+def load_model():
+    return torch.load("checkpoint.pth")

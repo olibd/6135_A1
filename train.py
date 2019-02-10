@@ -6,12 +6,11 @@ import torch.nn as nn
 from torch.autograd import Variable
 
 
-def train(model, train_loader):
-
+def train(model, train_loader, optimizer):
     print("training started")
 
     device = torch.device("cpu")
-    if(cuda.is_available()):
+    if (cuda.is_available()):
         device = torch.device("cuda")
 
     model.to(device)
@@ -28,18 +27,22 @@ def train(model, train_loader):
             targets = targets.to(device)
 
         images = Variable(images)
-        target = Variable(targets)
+        targets = Variable(targets)
+
+        optimizer.zero_grad()
 
         output = model(images)
 
-        loss = nn.CrossEntropyLoss(output, target).to(device)
-        losses.append(loss)
+        loss = nn.CrossEntropyLoss()
+        loss = loss(output, targets).to(device)
+        losses.append(loss.item())
         loss.backward()
+        optimizer.step()
 
-        predictedClasses = torch.argmax(output)
+        predictedClasses = torch.argmax(output, 1)
         totalNumberItems += targets.size(0)
-        correctPredictions += predictedClasses.eq(targets.data).cpu().sum()
+        correctPredictions += predictedClasses.eq(targets.data).cpu().sum().item()
 
     print("training completed")
 
-    return np.mean(losses), correctPredictions/totalNumberItems
+    return np.mean(losses), (correctPredictions / totalNumberItems)
